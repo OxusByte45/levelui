@@ -1,0 +1,16 @@
+html
+  head
+    link(rel='stylesheet', href='../css/codemirror.css')
+    link(rel='stylesheet', href='../css/lint.css')
+    link(rel='stylesheet', href='../css/index.css')
+    script(src='../../client.js')
+  body
+    include ./components/header.pug
+    
+    include ./sections/query.pug
+    include ./sections/put.pug
+    include ./sections/connections.pug
+    include ./sections/settings.pug
+    
+    .modal-overlay
+

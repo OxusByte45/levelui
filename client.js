@@ -1,6 +1,6 @@
-var ipc = require('ipc');
-var fs = require('fs');
-var domready = require('domready');
+const { ipcRenderer } = require('electron');
+const fs = require('fs');
+const domready = require('domready');
 
 var root = '../../';
 

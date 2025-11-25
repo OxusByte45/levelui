@@ -33,10 +33,26 @@ section.query
     -webkit-transition all 0.3s
     -moz-transition all 0.3s
     transition all 0.3s
+    
+    &.resizing
+      -webkit-transition none
+      -moz-transition none
+      transition none
 
     &.open
       left: 300px
 
+    .split
+      position: absolute
+      top: 0px
+      bottom: 0px
+      left: 300px
+      width: 10px
+      background: #ededed
+      cursor: ew-resize
+      z-index: 100
+      pointer-events: auto
+      
     .splitx
       position: absolute
       top: 0px
@@ -45,7 +61,8 @@ section.query
       width: 10px
       background: #ededed
       cursor: ew-resize
-      z-index: 2
+      z-index: 100
+      pointer-events: auto
 
     .keys
       position: absolute

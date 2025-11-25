@@ -25,7 +25,7 @@ html
   font-size: 100%
  
 body
- font: 400 1rem/1.5 $font-Lora
+  font: 400 1rem/1.5 $font-Lora
   background-color: white
   color: $space-gray
   text-rendering: optimizeLegibility
@@ -118,6 +118,13 @@ ul
         font-size: $font-size-small
         background-image: linear-gradient(90deg, rgba($space-gray-lighter, .3), white)
         background-image: -webkit-linear-gradient(90deg, rgba($space-gray-lighter, .3), white)
+
+// Hide all sections by default - JavaScript will show the active one
+body > section
+  display: none
+
+body > section.connections
+  display: block
 
 .content
   margin: 0 auto
