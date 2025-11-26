@@ -5,14 +5,9 @@ node_modules/
 dist/
 out/
 
-# Demo database files (generated, should not be committed)
-demo-db/*.ldb
-demo-db/*.log
-demo-db/MANIFEST-*
-demo-db/LOG
-demo-db/LOG.old
-demo-db/CURRENT
-demo-db/LOCK
+# Demo database files - included for testing, but ignore future changes
+# Note: Initial demo-db is committed for testing purposes
+# Regenerate with: npm run demo-db
 
 # OS files
 .DS_Store
@@ -29,6 +24,7 @@ Thumbs.db
 
 # Logs
 *.log
+!demo-db/*.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
