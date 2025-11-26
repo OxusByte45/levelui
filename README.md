@@ -8,7 +8,7 @@ A modern LevelDB GUI for Electron - **Revived and Modernized** from [heapwolf/le
 
 ## What We've Accomplished
 
-This project has been completely modernized from the original abandoned repository:
+This project has been completely modernized from the original repository:
 
 - ✅ **Security Overhaul**: Migrated from insecure `nodeIntegration: true` to secure `contextIsolation: true` with preload script
 - ✅ **Electron Upgrade**: Updated from Electron 0.28.1 (atom-shell) to Electron 39.2.3

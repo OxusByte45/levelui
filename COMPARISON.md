@@ -4,7 +4,7 @@
 
 **Original Repository:** [heapwolf/levelui](https://github.com/heapwolf/levelui)  
 **Fork Repository:** [OxusByte45/levelui](https://github.com/OxusByte45/levelui)  
-**Status:** Original was abandoned, fork has been modernized and actively maintained
+**Status:** Original repository is no longer actively maintained; this fork has been modernized and is actively maintained
 
 ---
 
@@ -362,7 +362,7 @@ ipcMain.handle('fs-read-defaults', async (event) => {
 The fork represents a **complete modernization** of the original project:
 
 - **Security**: From insecure to secure architecture
-- **Maintainability**: From abandoned to actively maintained
+- **Maintainability**: From legacy codebase to actively maintained modern project
 - **Developer Experience**: From complex setup to modern tooling
 - **Code Quality**: From legacy patterns to modern best practices
 
