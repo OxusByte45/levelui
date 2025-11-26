@@ -4,22 +4,31 @@
 
 A modern LevelDB GUI for Electron - **Revived and Modernized** from [heapwolf/levelui](https://github.com/heapwolf/levelui).
 
-**Key Updates:**
-- Modern Electron (v39+) with secure architecture
-- electron-vite build system with hot reload
-- CodeMirror 6 for enhanced JSON editing
-- Improved UX and error handling
+**Original Author:** [heapwolf](https://github.com/heapwolf) - Created the original LevelUI project
 
-# SCREENSHOT
+## What We've Accomplished
 
-## QUERY
-![img](/docs/screenshot1.png)
+This project has been completely modernized from the original abandoned repository:
 
-## CONNECT
-![img](/docs/screenshot2.png)
+- ✅ **Security Overhaul**: Migrated from insecure `nodeIntegration: true` to secure `contextIsolation: true` with preload script
+- ✅ **Electron Upgrade**: Updated from Electron 0.28.1 (atom-shell) to Electron 39.2.3
+- ✅ **Build System**: Replaced manual node-gyp rebuilds with modern electron-vite
+- ✅ **Code Editor**: Upgraded to CodeMirror 6 with JSON syntax highlighting and linting
+- ✅ **Architecture**: Reorganized into proper Electron structure (`src/main/`, `src/renderer/`, `src/preload/`)
+- ✅ **Module System**: Converted from CommonJS to ES6 modules
+- ✅ **IPC Pattern**: Implemented secure IPC communication via context bridge
+- ✅ **Developer Experience**: Added hot reload, modern tooling, and comprehensive documentation
 
-## INSERT
-![img](/docs/screenshot3.png)
+# Screenshots
+
+## Query Interface
+![Query Interface](/docs/screenshot1.png)
+
+## Connection Manager
+![Connection Manager](/docs/screenshot2.png)
+
+## Insert/Update Data
+![Insert/Update](/docs/screenshot3.png)
 
 # Quick Start
 
@@ -45,8 +54,12 @@ npm run demo-db # Create demo database
 - [Testing Guide](./TESTING.md) - CRUD operations testing
 - [Demo Database](./DEMO_DB_README.md) - Demo database info
 
+# Credits
+
+- **Original Project**: [heapwolf/levelui](https://github.com/heapwolf/levelui) by [heapwolf](https://github.com/heapwolf)
+- **Modernized Fork**: [OxusByte45/levelui](https://github.com/OxusByte45/levelui)
+
 # LICENSE
 
 MIT
 
-[0]:https://github.com/hij1nx/lev

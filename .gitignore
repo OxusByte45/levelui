@@ -1,10 +1,18 @@
 # Dependencies
 node_modules/
-package-lock.json
 
 # Build outputs
 dist/
 out/
+
+# Demo database files (generated, should not be committed)
+demo-db/*.ldb
+demo-db/*.log
+demo-db/MANIFEST-*
+demo-db/LOG
+demo-db/LOG.old
+demo-db/CURRENT
+demo-db/LOCK
 
 # OS files
 .DS_Store
