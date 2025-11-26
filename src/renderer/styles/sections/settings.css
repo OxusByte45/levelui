@@ -1,0 +1,25 @@
+section.settings {
+  overflow-y: auto;
+  overflow-x: hidden;
+  height: calc(100vh - 80px);
+  padding: 20px;
+}
+
+section.settings h2 {
+  padding: 20px 0;
+  margin: 0;
+}
+
+section.settings label {
+  min-width: 150px;
+  display: inline-block;
+}
+
+section.settings .custom + label {
+  width: 180px;
+}
+
+section.settings .controls {
+  margin-bottom: 15px;
+}
+

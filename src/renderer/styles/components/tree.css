@@ -1,0 +1,155 @@
+.tree ul,
+.tree li {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.tree {
+  font: normal 14px var(--font-proxima), Arial, Sans-serif;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
+  padding: 8px 0;
+}
+
+.tree input {
+  position: absolute;
+  opacity: 0;
+  z-index: -1;
+}
+
+.tree input + label + ul {
+  margin: 0 0 0 20px;
+  padding-left: 0;
+}
+
+/* Hide children by default */
+.tree input ~ ul {
+  display: none;
+}
+
+.tree input:disabled + label {
+  cursor: default;
+  opacity: 0.6;
+}
+
+.tree input:checked:not(:disabled) ~ ul {
+  display: block;
+}
+
+/* Label styling */
+.tree label {
+  font-family: var(--font-proxima);
+  cursor: pointer;
+  display: block;
+  line-height: 22px;
+  padding: 3px 8px;
+  margin: 0;
+  position: relative;
+  color: #333;
+  transition: background-color 0.15s ease, color 0.15s ease;
+  border-radius: 3px;
+}
+
+.tree label:hover {
+  background-color: #f0f0f0;
+}
+
+/* Selected/highlighted item */
+.tree label.active {
+  color: #468DC9;
+  font-weight: 500;
+  background-color: #e8f2ff;
+}
+
+.tree input:checked + label {
+  color: #468DC9;
+  font-weight: 500;
+}
+
+/* Icon styling - SSStandard icons appear via :before for root level */
+.tree label.ss-icon {
+  padding-left: 26px;
+}
+
+.tree label.ss-icon::before {
+  position: absolute;
+  left: 6px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 16px;
+  height: 16px;
+  line-height: 16px;
+  text-align: center;
+  font-size: 14px;
+  color: #666;
+}
+
+/* Sub-level items: small arrows, normal text color (not grayed) */
+.tree label.tree-sub-item {
+  padding-left: 22px;
+  color: #333; /* Normal text color, not grayed */
+  font-size: 14px; /* Same size as root items */
+}
+
+.tree label.tree-sub-item::before {
+  content: "▻";
+  font-family: "SSStandard";
+  position: absolute;
+  left: 6px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 12px;
+  height: 12px;
+  line-height: 12px;
+  text-align: center;
+  font-size: 11px;
+  color: #999; /* Subtle arrow color */
+}
+
+/* Expanded sub-item shows down arrow */
+.tree input:checked + label.tree-sub-item::before {
+  content: "▾";
+  color: #999;
+}
+
+/* Leaf sub-items (disabled) - no arrow, just indent */
+.tree input:disabled + label.tree-sub-item {
+  color: #333; /* Normal text color */
+  opacity: 1; /* Not grayed out */
+  cursor: pointer; /* Still clickable */
+}
+
+.tree input:disabled + label.tree-sub-item::before {
+  content: "";
+  display: none;
+}
+
+/* Indentation for nested items */
+.tree li {
+  position: relative;
+}
+
+.tree li li {
+  margin-left: 0;
+}
+
+/* Tree item container */
+.tree li {
+  padding: 0;
+  margin: 0;
+}
+
+/* Link styling */
+.tree a {
+  color: #468DC9;
+  text-decoration: none;
+  display: block;
+  padding: 2px 5px;
+}
+
+.tree a:hover {
+  text-decoration: underline;
+  background-color: #f0f0f0;
+}

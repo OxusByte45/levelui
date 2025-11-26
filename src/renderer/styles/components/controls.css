@@ -1,0 +1,26 @@
+.controls {
+  -webkit-user-select: none;
+  display: block;
+  position: relative;
+  padding-left: 16px;
+}
+
+.controls.top {
+  background: #fafafa;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  z-index: 100;
+}
+
+.controls .control {
+  padding: 20px 8px;
+  display: inline-block;
+}
+
+.controls .control.half {
+  width: 50%;
+}
+
+.controls .control [name="limit"] {
+  width: 50px;
+}
+

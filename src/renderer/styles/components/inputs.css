@@ -1,0 +1,179 @@
+/*------------------------------------------------------------------------------
+*
+*  Inputs
+*
+------------------------------------------------------------------------------*/
+
+label {
+  font-family: var(--font-proxima);
+}
+
+label.custom-select {
+  position: relative;
+  display: inline-block;
+}
+
+.custom-select {
+  transition: all 0.3s;
+}
+
+.custom-select select {
+  font-family: var(--font-proxima);
+  min-width: 100px;
+  display: inline-block;
+  border: 2px solid #ccc;
+  padding: 4px 3px 3px 5px;
+  margin: 0;
+  font: inherit;
+  outline: none;
+  line-height: 1.2;
+  background: white;
+  -webkit-appearance: none;
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  border-radius: 2px;
+}
+
+.custom-select:after {
+  font-family: "SSStandard";
+  content: "navigatedown";
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  font-size: 60%;
+  line-height: 34px;
+  padding: 0 7px;
+  background: #ccc;
+  color: var(--space-gray);
+  pointer-events: none;
+  -webkit-border-radius: 0 2px 2px 0;
+  border-radius: 0 2px 2px 0;
+}
+
+.no-pointer-events .custom-select:after {
+  content: none;
+}
+
+[type="button"],
+[type="text"] {
+  -webkit-user-select: none;
+  font: inherit;
+  font-family: var(--font-proxima);
+  min-width: 100px;
+  display: inline-block;
+  border: 2px solid #ccc;
+  padding: 4px 3px 3px 5px;
+  margin: 0;
+  outline: none;
+  line-height: 1.2;
+  background: white;
+  -webkit-appearance: none;
+  -webkit-border-radius: 2px;
+  transition: all 0.1s ease-in;
+  border-radius: 2px;
+}
+
+[type="text"]:focus {
+  transition: all 0.2s;
+}
+
+[type="button"] {
+  font: inherit;
+  font-family: var(--font-proxima);
+  color: var(--space-gray);
+  background: #ccc;
+  padding: 5px;
+}
+
+[type="button"]:hover {
+  transition: all 0.2s ease-in;
+  background: #b8b8b8;
+}
+
+[type="button"]:disabled {
+  opacity: 0.4;
+}
+
+[type="button"].ss-icon {
+  font-family: "SSStandard";
+  line-height: 10px;
+  padding: 10px 0px 6px 0px;
+  top: 3px;
+  position: relative;
+  min-width: 35px;
+  max-width: 35px;
+}
+
+[type="checkbox"].custom:not(:checked),
+[type="checkbox"].custom:checked {
+  position: absolute;
+  left: -9999px;
+}
+
+[type="checkbox"].custom:not(:checked) + label,
+[type="checkbox"].custom:checked + label {
+  font-family: var(--font-proxima);
+  position: relative;
+  padding: 7px 10px 7px 40px;
+  padding: 7px 40px 7px 0px;
+  color: var(--space-gray);
+  cursor: pointer;
+  height: 30px;
+}
+
+[type="checkbox"].custom:not(:checked) + label:before,
+[type="checkbox"].custom:checked + label:before {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 0px;
+  width: 30px;
+  height: 30px;
+  line-height: 30px;
+  border: 2px solid #ccc;
+  background: #fff;
+  border-radius: 2px;
+}
+
+[type="checkbox"].custom:not(:checked) + label:after,
+[type="checkbox"].custom:checked + label:after {
+  content: "check";
+  font-family: "SSStandard";
+  position: absolute;
+  top: 7px;
+  right: 8px;
+  line-height: 20px;
+  font-size: 14px;
+  color: var(--blue);
+  transition: all 0.2s;
+}
+
+[type="checkbox"].custom:not(:checked) + label:after {
+  opacity: 0;
+  transform: scale(0);
+}
+
+[type="checkbox"].custom:checked + label:after {
+  opacity: 1;
+  transform: scale(1);
+}
+
+[type="checkbox"].custom:disabled:not(:checked) + label:before,
+[type="checkbox"].custom:disabled:checked + label:before {
+  box-shadow: none;
+}
+
+[type="checkbox"]:disabled:checked + label:after {
+  color: #999;
+}
+
+[type="checkbox"]:disabled + label {
+  color: #aaa;
+}
+
+[type="checkbox"].custom:checked:focus + label:before,
+[type="checkbox"].custom:not(:checked):focus + label:before {
+  transition: all 0.1s ease-in;
+}
+

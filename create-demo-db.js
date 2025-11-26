@@ -18,46 +18,61 @@ const db = new Level(dbPath, { valueEncoding: 'json' });
 
 async function createDemoDatabase() {
   try {
-    // Sample data - various types of keys and values
+    // Create hierarchical data using colon-separated keys
+    console.log('Creating hierarchical database...');
+    
     const sampleData = [
-      // Simple key-value pairs
-      { key: 'user:1', value: { id: 1, name: 'Alice', email: 'alice@example.com', role: 'admin' } },
-      { key: 'user:2', value: { id: 2, name: 'Bob', email: 'bob@example.com', role: 'user' } },
-      { key: 'user:3', value: { id: 3, name: 'Charlie', email: 'charlie@example.com', role: 'user' } },
+      // Root entries
+      { key: 'Root', value: { type: 'container', description: 'Root level database entries', count: 42 } },
       
-      // Configuration data
-      { key: 'config:app:name', value: 'LevelUI Demo Application' },
-      { key: 'config:app:version', value: '3.0.0' },
-      { key: 'config:features:darkMode', value: true },
-      { key: 'config:features:notifications', value: false },
+      // Robots hierarchy
+      { key: 'Robots', value: { active: true, totalRobots: 15, online: 12, offline: 3 } },
+      { key: 'Robots:RootTests', value: { testsPassed: 127, testsFailed: 3, lastRun: '2024-11-24T08:30:00Z', coverage: 94.5 } },
       
-      // Session data
-      { key: 'session:abc123', value: { userId: 1, loginTime: '2024-11-24T10:00:00Z', ip: '192.168.1.100' } },
-      { key: 'session:def456', value: { userId: 2, loginTime: '2024-11-24T11:30:00Z', ip: '192.168.1.101' } },
+      // SL1 hierarchy
+      { key: 'SL1', value: { enabled: true, priority: 1, tasks: ['monitor', 'alert', 'backup'], timeout: 30000 } },
+      { key: 'SL1:config', value: { maxRetries: 3, interval: 5000, debug: false, logLevel: 'info' } },
       
-      // Product catalog
-      { key: 'product:laptop:001', value: { name: 'Gaming Laptop', price: 1299.99, stock: 15, category: 'electronics' } },
-      { key: 'product:laptop:002', value: { name: 'Business Laptop', price: 899.99, stock: 8, category: 'electronics' } },
-      { key: 'product:phone:001', value: { name: 'Smartphone Pro', price: 699.99, stock: 25, category: 'electronics' } },
+      // SL2 with nested SL2A
+      { key: 'SL2', value: { version: '2.1.0', beta: false, features: ['sync', 'cache', 'compression'], size: 1024 } },
+      { key: 'SL2:SL2A', value: { subVersion: 'A', mode: 'production', secure: true, port: 8080 } },
+      { key: 'SL2:SL2A:deep', value: { nested: true, depth: 3, value: 'deeply nested data', id: 99 } },
       
-      // Nested/hierarchical data (using prefixes)
-      { key: 'orders:2024:001', value: { orderId: 'ORD-2024-001', customerId: 1, total: 1999.98, items: ['laptop:001', 'phone:001'] } },
-      { key: 'orders:2024:002', value: { orderId: 'ORD-2024-002', customerId: 2, total: 899.99, items: ['laptop:002'] } },
-      { key: 'orders:2024:003', value: { orderId: 'ORD-2024-003', customerId: 3, total: 699.99, items: ['phone:001'] } },
+      // Ratings hierarchy
+      { key: 'Ratings', value: { averageRating: 4.7, totalReviews: 234, distribution: [5, 12, 28, 89, 100] } },
+      { key: 'Ratings:user:1', value: { userId: 1, rating: 5, comment: 'Excellent product!', helpful: 23, date: '2024-11-20' } },
+      { key: 'Ratings:user:2', value: { userId: 2, rating: 4, comment: 'Good but expensive', helpful: 15, date: '2024-11-22' } },
       
-      // Log entries
-      { key: 'log:2024-11-24:001', value: { level: 'info', message: 'Application started', timestamp: '2024-11-24T08:00:00Z' } },
-      { key: 'log:2024-11-24:002', value: { level: 'warning', message: 'High memory usage detected', timestamp: '2024-11-24T09:15:00Z' } },
-      { key: 'log:2024-11-24:003', value: { level: 'error', message: 'Database connection failed', timestamp: '2024-11-24T10:30:00Z' } },
+      // Permissions hierarchy
+      { key: 'Permissions', value: { enabled: true, strict: false, requireAuth: true, allowGuest: false } },
+      { key: 'Permissions:admin', value: { read: true, write: true, delete: true, execute: true, level: 10 } },
+      { key: 'Permissions:user', value: { read: true, write: false, delete: false, execute: false, level: 1 } },
       
-      // Simple string values
-      { key: 'message:welcome', value: 'Welcome to LevelUI!' },
-      { key: 'message:goodbye', value: 'Thank you for using LevelUI!' },
+      // Users hierarchy
+      { key: 'Users', value: { total: 1523, active: 1402, suspended: 121, deleted: null, premium: 456 } },
+      { key: 'Users:alice', value: { id: 1, name: 'Alice', email: 'alice@example.com', verified: true, lastLogin: null } },
+      { key: 'Users:bob', value: { id: 2, name: 'Bob', email: null, verified: false, lastLogin: '2024-11-23T14:22:00Z' } },
       
-      // Numeric values
-      { key: 'stats:totalUsers', value: 3 },
-      { key: 'stats:totalOrders', value: 3 },
-      { key: 'stats:totalRevenue', value: 3499.96 },
+      // Favorites hierarchy
+      { key: 'Favorites', value: { items: ['item1', 'item2', 'item3'], tags: ['important', 'starred'], count: 3 } },
+      { key: 'Favorites:movies', value: { titles: ['Inception', 'Matrix', 'Interstellar'], ratings: [9.5, 9.0, 9.2], watched: [true, true, false] } },
+      
+      // File operations
+      { key: 'fileDownload', value: { totalDownloads: 45678, bandwidth: 234.56, format: 'zip', compressed: true, size: null } },
+      { key: 'fileDownload:recent', value: { files: ['doc.pdf', 'image.jpg', 'video.mp4'], sizes: [1024, 2048, 10240], success: [true, true, false] } },
+      
+      { key: 'fileUpload', value: { totalUploads: 23456, maxSize: 52428800, allowedTypes: ['.jpg', '.png', '.pdf'], enabled: true } },
+      { key: 'fileUpload:pending', value: { count: 12, oldest: '2024-11-23T09:00:00Z', priority: 'high', autoProcess: false } },
+      
+      // Metadata hierarchy
+      { key: 'Metadata', value: { version: 1, schema: 'v2', locked: false, timestamp: 1732435200000, owner: null } },
+      { key: 'Metadata:schema', value: { 
+          fields: ['id', 'name', 'email', 'created'], 
+          types: ['number', 'string', 'string', 'date'],
+          required: [true, true, false, true],
+          defaults: [null, '', null, null]
+        } 
+      }
     ];
 
     console.log(`Inserting ${sampleData.length} key-value pairs...`);
@@ -70,8 +85,8 @@ async function createDemoDatabase() {
 
     // Verify by reading back
     console.log('\nVerifying database...');
-    const user1 = await db.get('user:1');
-    console.log(`  ✓ Verified: user:1 =`, user1);
+    const robotsData = await db.get('Robots');
+    console.log(`  ✓ Verified: Robots =`, robotsData);
 
     // Get some stats
     let count = 0;
@@ -83,6 +98,7 @@ async function createDemoDatabase() {
     console.log(`  Database path: ${dbPath}`);
     console.log(`\nYou can now open this database in LevelUI:`);
     console.log(`  Path: ${dbPath}`);
+    console.log(`\n  Keys are structured hierarchically with colons (e.g., Robots:RootTests).`);
 
     await db.close();
   } catch (error) {

@@ -1,0 +1,123 @@
+.CodeMirror {
+  height: auto !important;
+  font-size: 14px;
+}
+
+/* CodeMirror 6 root editor element */
+.cm-editor {
+  font-size: 14px;
+  height: 100%;
+  width: 100%;
+  background: #fff;
+  border: 1px solid #ddd;
+  box-sizing: border-box;
+}
+
+.cm-editor .cm-content {
+  padding: 4px 0;
+}
+
+.cm-editor .cm-lineNumbers {
+  background: #ededed;
+  border-right: 1px solid #ddd;
+}
+
+.cm-editor .cm-gutters {
+  background: #ededed;
+  border-right: 1px solid #ddd;
+}
+
+.cm-editor.cm-focused .cm-selectionBackground {
+  background: rgba(70, 141, 201, 0.25);
+}
+
+.cm-editor .cm-selectionBackground {
+  background: rgba(70, 141, 201, 0.15);
+}
+
+/* Ensure editor fills parent containers used in query / put sections */
+.value .cm-editor,
+.key .cm-editor {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 100%;
+  width: 100%;
+}
+
+/* Hide original textarea when CodeMirror is initialized */
+textarea.codemirror[style*="display: none"] {
+  display: none !important;
+}
+
+/* CodeMirror 6 syntax highlighting theme */
+.cm-editor .cm-string {
+  color: #3c7cd4;
+}
+
+.cm-editor .cm-number {
+  color: #164;
+}
+
+.cm-editor .cm-atom {
+  color: #219;
+}
+
+.cm-editor .cm-keyword {
+  color: #708;
+}
+
+.cm-editor .cm-property {
+  color: #05a;
+}
+
+.cm-editor .cm-punctuation {
+  color: #999;
+}
+
+.cm-editor .cm-bool, .cm-editor .cm-null {
+  color: #219;
+}
+
+/* Selection */
+.cm-editor .cm-selectionMatch {
+  background: rgba(70, 141, 201, 0.1);
+}
+
+.CodeMirror-scroll {
+  overflow-y: hidden;
+  overflow-x: auto;
+}
+
+.CodeMirror-lint-marker-error,
+.CodeMirror-lint-message-error {
+  height: 10px;
+  width: 10px;
+  background-color: red;
+  border-radius: 99em;
+  margin-left: 2px;
+}
+
+.CodeMirror-focused .CodeMirror-selected {
+  background: var(--blue);
+}
+
+.CodeMirror-selected {
+  background-color: var(--blue);
+}
+
+.CodeMirror-gutters {
+  background-color: #ededed;
+  border: none;
+}
+
+.cm-s-default .cm-string {
+  color: #3c7cd4 !important;
+}
+
+.cm-s-default .cm-string-2 {
+  color: #3c7cd4 !important;
+}
+
