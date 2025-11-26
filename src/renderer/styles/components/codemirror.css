@@ -11,20 +11,39 @@
   background: #fff;
   border: 1px solid #ddd;
   box-sizing: border-box;
+  font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+}
+
+.cm-editor .cm-scroller {
+  height: 100%;
+  overflow: auto;
 }
 
 .cm-editor .cm-content {
-  padding: 4px 0;
+  padding: 4px 8px;
+  font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+  font-size: 14px;
 }
 
 .cm-editor .cm-lineNumbers {
-  background: #ededed;
-  border-right: 1px solid #ddd;
+  background: #f8f8f8;
+  border-right: 1px solid #e0e0e0;
+  color: #999;
+  font-size: 12px;
+  min-width: 3ch;
+  padding: 4px 8px 4px 4px;
+  text-align: right;
+  user-select: none;
+  font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
 }
 
 .cm-editor .cm-gutters {
-  background: #ededed;
-  border-right: 1px solid #ddd;
+  background: #f8f8f8;
+  border-right: 1px solid #e0e0e0;
+}
+
+.cm-editor .cm-lineNumbers .cm-gutterElement {
+  padding-right: 8px;
 }
 
 .cm-editor.cm-focused .cm-selectionBackground {

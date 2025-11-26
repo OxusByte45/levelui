@@ -52,29 +52,13 @@ export function initCodeMirror(textarea, options = {}) {
 
   // Create editor state with JSON language support
   const extensions = [
-    lineNumbers(),
+    lineNumbers({
+      formatNumber: (lineNo) => lineNo.toString()
+    }),
     keymap.of(defaultKeymap),
     json(), // This provides JSON language parsing
     syntaxHighlighting(jsonHighlightStyle), // This applies the highlighting
     EditorView.lineWrapping,
-    EditorView.theme({
-      '&': {
-        height: '100%',
-        width: '100%'
-      },
-      '.cm-content': {
-        padding: '4px 0',
-        minHeight: '100%',
-        fontSize: '14px'
-      },
-      '.cm-editor': {
-        height: '100%'
-      },
-      '.cm-scroller': {
-        height: '100%',
-        overflow: 'auto'
-      }
-    }),
     EditorView.updateListener.of((update) => {
       if (update.docChanged) {
         // Sync editor content to textarea

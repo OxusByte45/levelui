@@ -14,13 +14,35 @@ section.query [name="lower-bound"] {
 }
 
 section.query .tree-container {
-  background: #ededed;
+  background: #fafafa;
   position: absolute;
   top: 70px;
   bottom: 0;
   left: 0;
   width: 300px;
   overflow: auto;
+  resize: horizontal;
+  min-width: 200px;
+  max-width: 50%;
+  border-right: 1px solid #e0e0e0;
+  box-shadow: 2px 0 6px rgba(0, 0, 0, 0.1);
+}
+
+section.query .tree-resizer {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 8px;
+  background: transparent;
+  cursor: ew-resize;
+  z-index: 100;
+  transition: background-color 0.2s ease;
+  margin-right: -2px;
+}
+
+section.query .tree-resizer:hover {
+  background: rgba(0, 0, 0, 0.08);
 }
 
 section.query .tree-container input.active + label {
@@ -34,14 +56,10 @@ section.query .results {
   right: 0;
   left: 0;
   z-index: 10;
-  -webkit-transition: all 0.3s;
-  -moz-transition: all 0.3s;
-  transition: all 0.3s;
+  transition: left 0.2s ease;
 }
 
 section.query .results.resizing {
-  -webkit-transition: none;
-  -moz-transition: none;
   transition: none;
 }
 
@@ -71,11 +89,17 @@ section.query .results .splitx {
   top: 0px;
   bottom: 0px;
   left: 300px;
-  width: 10px;
-  background: #ededed;
+  width: 8px;
+  background: transparent;
   cursor: ew-resize;
   z-index: 100;
   pointer-events: auto;
+  transition: background-color 0.2s ease;
+  margin-left: -2px;
+}
+
+section.query .results .splitx:hover {
+  background: rgba(0, 0, 0, 0.08);
 }
 
 section.query .results .keys {
@@ -85,6 +109,9 @@ section.query .results .keys {
   width: 300px;
   bottom: 0px;
   z-index: 1;
+  background: #fafafa;
+  border-right: 1px solid #e0e0e0;
+  box-shadow: 2px 0 6px rgba(0, 0, 0, 0.1);
 }
 
 section.query .results .keys select {

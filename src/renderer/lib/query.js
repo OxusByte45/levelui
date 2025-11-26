@@ -18,6 +18,7 @@ let database = null;
 let config = null;
 let keysList = [];
 let selectedKey = null;
+let reverseOrder = false; // Track reverse sort order state
 
 export function init(db, cfg) {
   database = db;
@@ -59,8 +60,22 @@ export function init(db, cfg) {
   
   if (reverse) {
     reverse.addEventListener('click', () => {
-      getKeys(database, config);
+      // Toggle reverse order
+      reverseOrder = !reverseOrder;
+      // Update button visual state (toggle between up/down arrow)
+      if (reverseOrder) {
+        reverse.value = 'navigateup'; // Up arrow when reversed (descending)
+        reverse.title = 'Descending (click for Ascending)';
+      } else {
+        reverse.value = 'navigatedown'; // Down arrow when normal (ascending)
+        reverse.title = 'Ascending (click for Descending)';
+      }
+      // Refresh query with new order (but preserve tree structure)
+      getKeys(database, config, true); // Pass flag to skip tree rebuild
     });
+    // Set initial state (ascending by default)
+    reverse.value = 'navigatedown';
+    reverse.title = 'Ascending (click for Descending)';
   }
   
   if (keysSelect) {
@@ -101,14 +116,25 @@ export function init(db, cfg) {
       // Toggle tree visibility
       const treeContainer = section.querySelector('.tree-container');
       const resultsPanel = section.querySelector('.results');
-      if (treeContainer && resultsPanel) {
+      const splitx = section.querySelector('.results .splitx');
+      const keysPanel = section.querySelector('.results .keys');
+      if (treeContainer && resultsPanel && splitx && keysPanel) {
         const isHidden = treeContainer.style.display === 'none';
         if (isHidden) {
           treeContainer.style.display = 'block';
           resultsPanel.classList.add('open');
+          const treeWidth = treeContainer.offsetWidth || 300;
+          resultsPanel.style.left = `${treeWidth}px`;
+          // splitx position is relative to results panel, keep it at keysWidth
+          const keysWidth = keysPanel.offsetWidth || 300;
+          splitx.style.left = `${keysWidth}px`;
         } else {
           treeContainer.style.display = 'none';
           resultsPanel.classList.remove('open');
+          resultsPanel.style.left = '0px';
+          // splitx position is relative to results panel, keep it at keysWidth
+          const keysWidth = keysPanel.offsetWidth || 300;
+          splitx.style.left = `${keysWidth}px`;
         }
       }
     });
@@ -120,13 +146,24 @@ export function init(db, cfg) {
     rootCheckbox.addEventListener('change', (e) => {
       const treeContainer = section.querySelector('.tree-container');
       const resultsPanel = section.querySelector('.results');
-      if (treeContainer && resultsPanel) {
+      const splitx = section.querySelector('.results .splitx');
+      const keysPanel = section.querySelector('.results .keys');
+      if (treeContainer && resultsPanel && splitx && keysPanel) {
         if (e.target.checked) {
           treeContainer.style.display = 'block';
           resultsPanel.classList.add('open');
+          const treeWidth = treeContainer.offsetWidth || 300;
+          resultsPanel.style.left = `${treeWidth}px`;
+          // splitx position is relative to results panel, keep it at keysWidth
+          const keysWidth = keysPanel.offsetWidth || 300;
+          splitx.style.left = `${keysWidth}px`;
         } else {
           treeContainer.style.display = 'none';
           resultsPanel.classList.remove('open');
+          resultsPanel.style.left = '0px';
+          // splitx position is relative to results panel, keep it at keysWidth
+          const keysWidth = keysPanel.offsetWidth || 300;
+          splitx.style.left = `${keysWidth}px`;
         }
       }
     });
@@ -134,11 +171,140 @@ export function init(db, cfg) {
     rootCheckbox.checked = true;
   }
   
+  // Initialize resizable panes
+  initResizablePanes(section);
+  
   // Initial load
   getKeys(database, config);
 }
 
-export async function getKeys(db, cfg) {
+/**
+ * Initialize resizable panes for tree, keys, and value editor
+ */
+function initResizablePanes(section) {
+  const treeContainer = section.querySelector('.tree-container');
+  const resultsPanel = section.querySelector('.results');
+  const splitx = section.querySelector('.results .splitx');
+  const keysPanel = section.querySelector('.results .keys');
+  const valuePanel = section.querySelector('.results .value');
+  
+  if (!treeContainer || !resultsPanel || !splitx || !keysPanel || !valuePanel) {
+    return;
+  }
+  
+  // Initialize widths from current state or defaults
+  let treeWidth = treeContainer.offsetWidth || 300;
+  let keysWidth = keysPanel.offsetWidth || 300;
+  
+  // Ensure initial positioning is correct
+  function updatePositions() {
+    treeContainer.style.width = `${treeWidth}px`;
+    resultsPanel.style.left = `${treeWidth}px`;
+    keysPanel.style.width = `${keysWidth}px`;
+    splitx.style.left = `${keysWidth}px`;
+    valuePanel.style.left = `${keysWidth}px`;
+  }
+  
+  // Keep splitx within bounds when window resizes
+  function constrainSplitx() {
+    const resultsLeft = resultsPanel.offsetLeft;
+    const resultsWidth = window.innerWidth - resultsLeft;
+    const minKeysWidth = 200;
+    const maxKeysWidth = resultsWidth - 200;
+    
+    if (keysWidth < minKeysWidth) {
+      keysWidth = minKeysWidth;
+    } else if (keysWidth > maxKeysWidth) {
+      keysWidth = Math.max(minKeysWidth, maxKeysWidth);
+    }
+    
+    updatePositions();
+  }
+  
+  // Initialize positions
+  updatePositions();
+  
+  let isResizingTree = false;
+  let isResizingKeys = false;
+  
+  // Tree resizer
+  const treeResizer = document.createElement('div');
+  treeResizer.className = 'tree-resizer';
+  treeContainer.appendChild(treeResizer);
+  
+  treeResizer.addEventListener('mousedown', (e) => {
+    isResizingTree = true;
+    resultsPanel.classList.add('resizing');
+    document.addEventListener('mousemove', handleTreeResize);
+    document.addEventListener('mouseup', stopTreeResize);
+    e.preventDefault();
+  });
+  
+  function handleTreeResize(e) {
+    if (!isResizingTree) return;
+    const newWidth = e.clientX;
+    const minWidth = 200;
+    const maxWidth = Math.max(minWidth + 200, window.innerWidth * 0.5);
+    if (newWidth >= minWidth && newWidth <= maxWidth) {
+      treeWidth = newWidth;
+      treeContainer.style.width = `${treeWidth}px`;
+      resultsPanel.style.left = `${treeWidth}px`;
+      // Constrain splitx after tree resize
+      constrainSplitx();
+    }
+  }
+  
+  function stopTreeResize() {
+    isResizingTree = false;
+    resultsPanel.classList.remove('resizing');
+    document.removeEventListener('mousemove', handleTreeResize);
+    document.removeEventListener('mouseup', stopTreeResize);
+  }
+  
+  // Keys/Value resizer
+  splitx.addEventListener('mousedown', (e) => {
+    isResizingKeys = true;
+    resultsPanel.classList.add('resizing');
+    document.addEventListener('mousemove', handleKeysResize);
+    document.addEventListener('mouseup', stopKeysResize);
+    e.preventDefault();
+  });
+  
+  function handleKeysResize(e) {
+    if (!isResizingKeys) return;
+    const resultsLeft = resultsPanel.offsetLeft;
+    const newKeysWidth = e.clientX - resultsLeft;
+    const minWidth = 200;
+    const availableWidth = window.innerWidth - resultsLeft;
+    const maxWidth = Math.max(minWidth + 200, availableWidth - 200);
+    if (newKeysWidth >= minWidth && newKeysWidth <= maxWidth) {
+      keysWidth = newKeysWidth;
+      keysPanel.style.width = `${keysWidth}px`;
+      splitx.style.left = `${keysWidth}px`;
+      valuePanel.style.left = `${keysWidth}px`;
+    }
+  }
+  
+  function stopKeysResize() {
+    isResizingKeys = false;
+    resultsPanel.classList.remove('resizing');
+    document.removeEventListener('mousemove', handleKeysResize);
+    document.removeEventListener('mouseup', stopKeysResize);
+  }
+  
+  // Handle window resize to keep everything in bounds
+  let resizeTimeout;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimeout);
+    resizeTimeout = setTimeout(() => {
+      if (!isResizingTree && !isResizingKeys) {
+        constrainSplitx();
+      }
+    }, 100);
+  });
+}
+
+export async function getKeys(db, cfg, skipTreeRebuild = false) {
   // Use dbAPI if database.handle is not available or is dbAPI
   const handle = db?.handle || (dbAPI.isOpen ? dbAPI : null);
   
@@ -172,12 +338,17 @@ export async function getKeys(db, cfg) {
     if (limit && limit.value) {
       options.limit = parseInt(limit.value, 10);
     }
+    // Add reverse option if enabled
+    if (reverseOrder) {
+      options.reverse = true;
+    }
     
     keysList = [];
     if (keysSelect) {
       keysSelect.innerHTML = '';
     }
-    if (treeRoot) {
+    // Only clear tree if we're doing a full rebuild (not just toggling sort order)
+    if (treeRoot && !skipTreeRebuild) {
       treeRoot.innerHTML = '';
     }
     
@@ -193,8 +364,12 @@ export async function getKeys(db, cfg) {
     }
     
     // Build hierarchical tree structure
-    if (treeRoot) {
-      buildTree(treeRoot, keysList);
+    // Tree should always use sorted keys (alphabetical) regardless of reverse order
+    // This maintains consistent hierarchical structure
+    // Only rebuild tree if not skipping (i.e., on initial load or filter changes)
+    if (treeRoot && !skipTreeRebuild) {
+      const sortedKeysForTree = [...keysList].sort();
+      buildTree(treeRoot, sortedKeysForTree);
     }
     
     if (deleteBtn) {
