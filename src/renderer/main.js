@@ -7,6 +7,7 @@ import * as settings from './lib/settings.js';
 import * as connections from './lib/connections.js';
 import dbAPI from './lib/db-api.js';
 import { initAllCodeMirrors } from './lib/codemirror-init.js';
+import { themeManager } from './lib/theme-manager.js';
 
 // Load configuration via IPC
 async function loadConfig() {
@@ -51,11 +52,14 @@ domReady(async function() {
     return;
   }
 
+  // Initialize theme FIRST - must be applied before any components render
+  await themeManager.init();
+
   // Initialize config
   const config = await loadConfig();
   await dbAPI.init(config);
 
-  // Initialize CodeMirror editors first
+  // Initialize CodeMirror editors
   initAllCodeMirrors();
 
   // Initialize modules

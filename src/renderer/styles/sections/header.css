@@ -1,9 +1,9 @@
 header {
   -webkit-app-region: drag;
-  -webkit-user-select: none;
+  user-select: none;
   cursor: default;
-  color: white;
-  background-color: #aaa;
+  color: var(--header-text);
+  background-color: var(--header-bg);
   width: 100%;
   height: 80px;
   display: table;
@@ -29,22 +29,12 @@ header ul.horizontal li a:hover {
   display: inline-block;
   margin: 25px;
   font-size: 25px;
-  color: white;
+  color: var(--header-text);
   text-decoration: none;
+  transition: color 0.2s ease;
 }
 
-header ul.horizontal li a.active:after {
-  top: 100%;
-  left: 50%;
-  border: solid transparent;
-  content: " ";
-  height: 0;
-  width: 0;
-  position: absolute;
-  pointer-events: none;
-  border-color: rgba(255, 255, 255, 0);
-  border-bottom-color: #fafafa;
-  border-width: 10px;
-  margin-left: -10px;
+header ul.horizontal li a.active {
+  color: var(--accent-color);
 }
 

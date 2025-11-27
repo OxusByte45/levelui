@@ -1,5 +1,5 @@
 section.put {
-  background: #ededed;
+  background: var(--bg-tertiary);
   position: absolute;
   top: 80px;
   bottom: 0;
@@ -13,13 +13,13 @@ section.put .key {
   left: 0;
   right: 0;
   height: 100px;
-  background: #fff;
-  border-bottom: 1px solid #ddd;
+  background: var(--bg-primary);
+  border-bottom: 1px solid var(--border-color);
 }
 
 section.put .key .cm-editor {
   border: none;
-  box-shadow: inset 0 0 0 1px #e0e0e0;
+  box-shadow: inset 0 0 0 1px var(--border-color-light);
 }
 
 section.put .value {
@@ -28,11 +28,11 @@ section.put .value {
   bottom: 0;
   left: 0;
   right: 0;
-  background: #fff;
+  background: var(--bg-primary);
 }
 
 section.put .value .cm-editor {
   border: none;
-  box-shadow: inset 0 0 0 1px #e0e0e0;
+  box-shadow: inset 0 0 0 1px var(--border-color-light);
 }
 

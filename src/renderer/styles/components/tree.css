@@ -7,8 +7,6 @@
 
 .tree {
   font: normal 14px var(--font-proxima), Arial, Sans-serif;
-  -moz-user-select: none;
-  -webkit-user-select: none;
   user-select: none;
   padding: 8px 0;
 }
@@ -47,25 +45,21 @@
   padding: 3px 8px;
   margin: 0;
   position: relative;
-  color: #333;
+  color: var(--text-primary);
   transition: background-color 0.15s ease, color 0.15s ease;
   border-radius: 3px;
 }
 
 .tree label:hover {
-  background-color: #f0f0f0;
+  background-color: var(--bg-tertiary);
 }
 
-/* Selected/highlighted item */
+/* Selected/highlighted item - applies to both root and sublevel items */
 .tree label.active {
-  color: #468DC9;
-  font-weight: 500;
-  background-color: #e8f2ff;
-}
-
-.tree input:checked + label {
-  color: #468DC9;
-  font-weight: 500;
+  color: var(--text-primary);
+  background-color: var(--code-selection-bg);
+  border-left: 3px solid var(--accent-color);
+  padding-left: 5px;
 }
 
 /* Icon styling - SSStandard icons appear via :before for root level */
@@ -83,13 +77,24 @@
   line-height: 16px;
   text-align: center;
   font-size: 14px;
-  color: #666;
+  color: var(--text-secondary) !important;
+}
+
+/* Keep icon color consistent - never changes regardless of state */
+.tree label.active.ss-icon::before,
+.tree input:checked + label.ss-icon::before {
+  color: var(--text-secondary) !important;
+}
+
+/* Keep sublevel arrow color consistent when active */
+.tree label.tree-sub-item.active::before {
+  color: var(--text-tertiary);
 }
 
 /* Sub-level items: small arrows, normal text color (not grayed) */
 .tree label.tree-sub-item {
   padding-left: 22px;
-  color: #333; /* Normal text color, not grayed */
+  color: var(--text-primary); /* Normal text color, not grayed */
   font-size: 14px; /* Same size as root items */
 }
 
@@ -105,18 +110,17 @@
   line-height: 12px;
   text-align: center;
   font-size: 11px;
-  color: #999; /* Subtle arrow color */
+  color: var(--text-tertiary); /* Subtle arrow color */
 }
 
-/* Expanded sub-item shows down arrow */
+/* Expanded sub-item keeps same arrow (redundant but explicit) */
 .tree input:checked + label.tree-sub-item::before {
-  content: "▾";
-  color: #999;
+  content: "▻";
 }
 
 /* Leaf sub-items (disabled) - no arrow, just indent */
 .tree input:disabled + label.tree-sub-item {
-  color: #333; /* Normal text color */
+  color: var(--text-primary); /* Normal text color */
   opacity: 1; /* Not grayed out */
   cursor: pointer; /* Still clickable */
 }
@@ -126,24 +130,20 @@
   display: none;
 }
 
-/* Indentation for nested items */
+/* Tree item container */
 .tree li {
   position: relative;
+  padding: 0;
+  margin: 0;
 }
 
 .tree li li {
   margin-left: 0;
 }
 
-/* Tree item container */
-.tree li {
-  padding: 0;
-  margin: 0;
-}
-
 /* Link styling */
 .tree a {
-  color: #468DC9;
+  color: var(--accent-color);
   text-decoration: none;
   display: block;
   padding: 2px 5px;
@@ -151,5 +151,5 @@
 
 .tree a:hover {
   text-decoration: underline;
-  background-color: #f0f0f0;
+  background-color: var(--bg-tertiary);
 }

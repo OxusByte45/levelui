@@ -1,5 +1,5 @@
 section.connections {
-  background: #fafafa;
+  background: var(--bg-secondary);
   position: absolute;
   top: 80px;
   bottom: 0;
@@ -25,6 +25,9 @@ section.connections .connection-options .option {
 
 section.connections .connection-options .option input[type="text"] {
   width: 80%;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  caret-color: var(--code-cursor);
 }
 
 section.connections .connection-options .option input[type="button"] {

@@ -21,17 +21,22 @@ label.custom-select {
   font-family: var(--font-proxima);
   min-width: 100px;
   display: inline-block;
-  border: 2px solid #ccc;
+  border: 2px solid var(--border-color);
   padding: 4px 3px 3px 5px;
   margin: 0;
   font: inherit;
   outline: none;
   line-height: 1.2;
-  background: white;
+  background: var(--bg-primary);
+  color: var(--text-primary);
   -webkit-appearance: none;
-  -webkit-border-radius: 2px;
-  -moz-border-radius: 2px;
+  appearance: none;
   border-radius: 2px;
+}
+
+.custom-select select option {
+  background: var(--bg-primary);
+  color: var(--text-primary);
 }
 
 .custom-select:after {
@@ -44,10 +49,9 @@ label.custom-select {
   font-size: 60%;
   line-height: 34px;
   padding: 0 7px;
-  background: #ccc;
-  color: var(--space-gray);
+  background: var(--bg-tertiary);
+  color: var(--text-secondary);
   pointer-events: none;
-  -webkit-border-radius: 0 2px 2px 0;
   border-radius: 0 2px 2px 0;
 }
 
@@ -57,21 +61,27 @@ label.custom-select {
 
 [type="button"],
 [type="text"] {
-  -webkit-user-select: none;
+  user-select: none;
   font: inherit;
   font-family: var(--font-proxima);
   min-width: 100px;
   display: inline-block;
-  border: 2px solid #ccc;
+  border: 2px solid var(--border-color);
   padding: 4px 3px 3px 5px;
   margin: 0;
   outline: none;
   line-height: 1.2;
-  background: white;
+  background: var(--bg-primary);
+  color: var(--text-primary);
   -webkit-appearance: none;
-  -webkit-border-radius: 2px;
-  transition: all 0.1s ease-in;
+  appearance: none;
   border-radius: 2px;
+  transition: all 0.1s ease-in;
+}
+
+[type="text"] {
+  user-select: text;
+  caret-color: var(--code-cursor);
 }
 
 [type="text"]:focus {
@@ -81,14 +91,14 @@ label.custom-select {
 [type="button"] {
   font: inherit;
   font-family: var(--font-proxima);
-  color: var(--space-gray);
-  background: #ccc;
+  color: var(--text-primary);
+  background: var(--bg-tertiary);
   padding: 5px;
 }
 
 [type="button"]:hover {
   transition: all 0.2s ease-in;
-  background: #b8b8b8;
+  background: var(--border-color);
 }
 
 [type="button"]:disabled {
@@ -131,8 +141,8 @@ label.custom-select {
   width: 30px;
   height: 30px;
   line-height: 30px;
-  border: 2px solid #ccc;
-  background: #fff;
+  border: 2px solid var(--border-color);
+  background: var(--bg-primary);
   border-radius: 2px;
 }
 
@@ -165,11 +175,11 @@ label.custom-select {
 }
 
 [type="checkbox"]:disabled:checked + label:after {
-  color: #999;
+  color: var(--text-tertiary);
 }
 
 [type="checkbox"]:disabled + label {
-  color: #aaa;
+  color: var(--text-tertiary);
 }
 
 [type="checkbox"].custom:checked:focus + label:before,

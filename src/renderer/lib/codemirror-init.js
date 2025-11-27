@@ -1,4 +1,5 @@
 // CodeMirror 6 initialization
+// All colors from CSS variables - see variables.css
 import { EditorView } from '@codemirror/view';
 import { EditorState } from '@codemirror/state';
 import { json } from '@codemirror/lang-json';
@@ -7,8 +8,19 @@ import { defaultKeymap } from '@codemirror/commands';
 import { keymap } from '@codemirror/view';
 import { syntaxHighlighting, HighlightStyle } from '@codemirror/language';
 import { tags } from '@lezer/highlight';
+import { getSyntaxThemeVars } from './syntax-themes.js';
 
 let editors = new Map();
+
+/**
+ * Get CSS variable value
+ * @param {string} varName - CSS variable name (e.g., '--syntax-string')
+ * @returns {string} CSS color value
+ */
+function getCSSVar(varName) {
+  return getComputedStyle(document.documentElement)
+    .getPropertyValue(varName).trim();
+}
 
 /**
  * Initialize CodeMirror editor on a textarea element
@@ -29,25 +41,28 @@ export function initCodeMirror(textarea, options = {}) {
   // Hide the original textarea
   textarea.style.display = 'none';
 
+  // Get current app theme from data attribute
+  const appTheme = document.documentElement.getAttribute('data-theme') || 'light';
+  const syntaxVars = getSyntaxThemeVars(appTheme);
+
   // Define comprehensive syntax highlighting style for JSON
-  // This is the standard CodeMirror 6 approach - works perfectly with Vite
-  // Using HighlightStyle.define() is the recommended way for custom themes
+  // All colors from CSS variables - automatically adapts to theme
   const jsonHighlightStyle = HighlightStyle.define([
-    // JSON-specific highlighting
-    { tag: tags.string, color: '#3c7cd4' },           // Blue for strings
-    { tag: tags.number, color: '#164' },              // Green for numbers  
-    { tag: tags.bool, color: '#219' },                // Purple for true/false
-    { tag: tags.null, color: '#219' },                // Purple for null
-    { tag: tags.propertyName, color: '#05a' },         // Blue for property keys
-    { tag: tags.punctuation, color: '#999' },          // Gray for : , etc
-    { tag: tags.bracket, color: '#999' },             // Gray for { }
-    { tag: tags.squareBracket, color: '#999' },        // Gray for [ ]
-    { tag: tags.operator, color: '#999' },            // Gray for operators
+    // JSON-specific highlighting - colors from CSS variables
+    { tag: tags.string, color: getCSSVar(syntaxVars.string) },
+    { tag: tags.number, color: getCSSVar(syntaxVars.number) },
+    { tag: tags.bool, color: getCSSVar(syntaxVars.bool) },
+    { tag: tags.null, color: getCSSVar(syntaxVars.null) },
+    { tag: tags.propertyName, color: getCSSVar(syntaxVars.property) },
+    { tag: tags.punctuation, color: getCSSVar(syntaxVars.punctuation) },
+    { tag: tags.bracket, color: getCSSVar(syntaxVars.bracket) },
+    { tag: tags.squareBracket, color: getCSSVar(syntaxVars.bracket) },
+    { tag: tags.operator, color: getCSSVar(syntaxVars.operator) },
     // Fallback tags for better coverage
-    { tag: tags.keyword, color: '#708' },             // Purple for keywords
-    { tag: tags.variableName, color: '#333' },        // Dark gray for variables
-    { tag: tags.definitionKeyword, color: '#708' },   // Purple for definition keywords
-    { tag: tags.modifier, color: '#708' },            // Purple for modifiers
+    { tag: tags.keyword, color: getCSSVar(syntaxVars.keyword) },
+    { tag: tags.variableName, color: getCSSVar(syntaxVars.variable) },
+    { tag: tags.definitionKeyword, color: getCSSVar(syntaxVars.keyword) },
+    { tag: tags.modifier, color: getCSSVar(syntaxVars.keyword) },
   ]);
 
   // Create editor state with JSON language support

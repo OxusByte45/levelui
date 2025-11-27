@@ -30,5 +30,15 @@ contextBridge.exposeInMainWorld('electronAPI', {
   // App operations
   app: {
     getCwd: () => ipcRenderer.invoke('app-get-cwd')
+  },
+
+  // Theme operations
+  theme: {
+    getSystemTheme: () => ipcRenderer.invoke('get-system-theme'),
+    setOverride: (theme) => ipcRenderer.invoke('set-theme-override', theme),
+    getOverride: () => ipcRenderer.invoke('get-theme-override'),
+    onChanged: (callback) => {
+      ipcRenderer.on('system-theme-changed', (event, theme) => callback(theme));
+    }
   }
 });

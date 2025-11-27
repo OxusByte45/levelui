@@ -4,12 +4,13 @@
 }
 
 /* CodeMirror 6 root editor element */
+/* All colors from CSS variables - see variables.css */
 .cm-editor {
   font-size: 14px;
   height: 100%;
   width: 100%;
-  background: #fff;
-  border: 1px solid #ddd;
+  background: var(--code-bg);
+  border: 1px solid var(--code-border);
   box-sizing: border-box;
   font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
 }
@@ -19,16 +20,24 @@
   overflow: auto;
 }
 
+/* CodeMirror 6 line elements */
+.cm-editor .cm-line {
+  font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+}
+
 .cm-editor .cm-content {
   padding: 4px 8px;
   font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
   font-size: 14px;
+  line-height: 1.5;
+  color: var(--code-text);
+  caret-color: var(--code-cursor);
 }
 
 .cm-editor .cm-lineNumbers {
-  background: #f8f8f8;
-  border-right: 1px solid #e0e0e0;
-  color: #999;
+  background: var(--code-gutter-bg);
+  border-right: 1px solid var(--code-border);
+  color: var(--code-gutter-text);
   font-size: 12px;
   min-width: 3ch;
   padding: 4px 8px 4px 4px;
@@ -38,8 +47,8 @@
 }
 
 .cm-editor .cm-gutters {
-  background: #f8f8f8;
-  border-right: 1px solid #e0e0e0;
+  background: var(--code-gutter-bg);
+  border-right: 1px solid var(--code-border);
 }
 
 .cm-editor .cm-lineNumbers .cm-gutterElement {
@@ -47,11 +56,11 @@
 }
 
 .cm-editor.cm-focused .cm-selectionBackground {
-  background: rgba(70, 141, 201, 0.25);
+  background: var(--code-selection-bg-focused);
 }
 
 .cm-editor .cm-selectionBackground {
-  background: rgba(70, 141, 201, 0.15);
+  background: var(--code-selection-bg);
 }
 
 /* Ensure editor fills parent containers used in query / put sections */
@@ -71,40 +80,16 @@ textarea.codemirror[style*="display: none"] {
   display: none !important;
 }
 
-/* CodeMirror 6 syntax highlighting theme */
-.cm-editor .cm-string {
-  color: #3c7cd4;
-}
-
-.cm-editor .cm-number {
-  color: #164;
-}
-
-.cm-editor .cm-atom {
-  color: #219;
-}
-
-.cm-editor .cm-keyword {
-  color: #708;
-}
-
-.cm-editor .cm-property {
-  color: #05a;
-}
-
-.cm-editor .cm-punctuation {
-  color: #999;
-}
-
-.cm-editor .cm-bool, .cm-editor .cm-null {
-  color: #219;
-}
+/* CodeMirror 6 syntax highlighting */
+/* Colors are applied via HighlightStyle.define() in codemirror-init.js */
+/* No CSS needed - CodeMirror 6 uses inline styles from HighlightStyle */
 
 /* Selection */
 .cm-editor .cm-selectionMatch {
-  background: rgba(70, 141, 201, 0.1);
+  background: var(--code-selection-bg);
 }
 
+/* Legacy CodeMirror 5 styles - kept for compatibility if needed */
 .CodeMirror-scroll {
   overflow-y: hidden;
   overflow-x: auto;
@@ -117,26 +102,5 @@ textarea.codemirror[style*="display: none"] {
   background-color: red;
   border-radius: 99em;
   margin-left: 2px;
-}
-
-.CodeMirror-focused .CodeMirror-selected {
-  background: var(--blue);
-}
-
-.CodeMirror-selected {
-  background-color: var(--blue);
-}
-
-.CodeMirror-gutters {
-  background-color: #ededed;
-  border: none;
-}
-
-.cm-s-default .cm-string {
-  color: #3c7cd4 !important;
-}
-
-.cm-s-default .cm-string-2 {
-  color: #3c7cd4 !important;
 }
 

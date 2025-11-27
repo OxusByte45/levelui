@@ -4,7 +4,7 @@ section.query {
   bottom: 0px;
   right: 0px;
   left: 0px;
-  background: #fafafa;
+  background: var(--bg-secondary);
 }
 
 section.query [name="upper-bound"],
@@ -14,7 +14,7 @@ section.query [name="lower-bound"] {
 }
 
 section.query .tree-container {
-  background: #fafafa;
+  background: var(--bg-secondary);
   position: absolute;
   top: 70px;
   bottom: 0;
@@ -24,8 +24,8 @@ section.query .tree-container {
   resize: horizontal;
   min-width: 200px;
   max-width: 50%;
-  border-right: 1px solid #e0e0e0;
-  box-shadow: 2px 0 6px rgba(0, 0, 0, 0.1);
+  border-right: 1px solid var(--border-color);
+  box-shadow: var(--shadow-md);
 }
 
 section.query .tree-resizer {
@@ -42,11 +42,7 @@ section.query .tree-resizer {
 }
 
 section.query .tree-resizer:hover {
-  background: rgba(0, 0, 0, 0.08);
-}
-
-section.query .tree-container input.active + label {
-  color: #468DC9;
+  background: var(--overlay-hover);
 }
 
 section.query .results {
@@ -78,7 +74,7 @@ section.query .results .split {
   bottom: 0px;
   left: 300px;
   width: 10px;
-  background: #ededed;
+  background: var(--bg-tertiary);
   cursor: ew-resize;
   z-index: 100;
   pointer-events: auto;
@@ -99,7 +95,7 @@ section.query .results .splitx {
 }
 
 section.query .results .splitx:hover {
-  background: rgba(0, 0, 0, 0.08);
+  background: var(--overlay-hover);
 }
 
 section.query .results .keys {
@@ -109,9 +105,9 @@ section.query .results .keys {
   width: 300px;
   bottom: 0px;
   z-index: 1;
-  background: #fafafa;
-  border-right: 1px solid #e0e0e0;
-  box-shadow: 2px 0 6px rgba(0, 0, 0, 0.1);
+  background: var(--bg-secondary);
+  border-right: 1px solid var(--border-color);
+  box-shadow: var(--shadow-md);
 }
 
 section.query .results .keys select {
@@ -122,11 +118,20 @@ section.query .results .keys select {
   width: 100%;
   outline: none;
   border: none;
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  font-family: var(--font-proxima);
 }
 
 section.query .results .keys select option {
   padding: 8px;
   font-size: 12px;
+  color: var(--text-primary);
+}
+
+section.query .results .keys select option:checked {
+  background: var(--code-selection-bg);
+  color: var(--text-primary);
 }
 
 section.query .results .value {
@@ -136,13 +141,12 @@ section.query .results .value {
   right: 0;
   bottom: 0px;
   z-index: 1;
-  background: #ffffff;
   overflow: hidden;
 }
 
 section.query .results .value .cm-editor {
   font-size: 13px;
-  background: #fff;
+  background: var(--code-bg);
   border: none;
 }
 

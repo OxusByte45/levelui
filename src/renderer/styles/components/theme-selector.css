@@ -1,0 +1,102 @@
+/*------------------------------------------------------------------------------
+*
+*  Theme Selector - Modern Theme Selection UI
+*  All styling via CSS variables - no inline styles
+*
+*------------------------------------------------------------------------------*/
+
+.theme-selector {
+  display: flex;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-xs);
+  background: var(--bg-tertiary);
+  border-radius: var(--border-radius-md);
+  border: 1px solid var(--border-color);
+  width: 100%;
+  max-width: 400px;
+}
+
+.theme-selector .theme-option {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-xs);
+  padding: var(--spacing-md) var(--spacing-sm);
+  background: transparent;
+  border: 2px solid transparent;
+  border-radius: var(--border-radius-sm);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: var(--font-proxima);
+  color: var(--text-secondary);
+  min-height: 70px;
+  position: relative;
+  outline: none;
+}
+
+.theme-selector .theme-option:hover {
+  background: var(--bg-elevated);
+  color: var(--text-primary);
+  border-color: var(--border-color);
+}
+
+.theme-selector .theme-option:focus {
+  outline: 2px solid var(--accent-color);
+  outline-offset: 2px;
+}
+
+.theme-selector .theme-option.active {
+  background: var(--bg-elevated);
+  border-color: var(--accent-color);
+  color: var(--accent-color);
+  box-shadow: 0 0 0 2px var(--accent-glow-light);
+}
+
+.theme-selector .theme-option .theme-icon {
+  font-size: 24px;
+  line-height: 1;
+  display: block;
+  transition: transform 0.2s ease;
+}
+
+.theme-selector .theme-option:hover .theme-icon {
+  transform: scale(1.1);
+}
+
+.theme-selector .theme-option.active .theme-icon {
+  transform: scale(1.15);
+}
+
+.theme-selector .theme-option .theme-label {
+  font-size: var(--font-size-small);
+  font-weight: var(--font-weight-regular);
+  text-transform: capitalize;
+  letter-spacing: 0.3px;
+}
+
+.theme-selector .theme-option.active .theme-label {
+  font-weight: var(--font-weight-bold);
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+  .theme-selector {
+    flex-direction: column;
+    max-width: 100%;
+  }
+
+  .theme-selector .theme-option {
+    flex-direction: row;
+    justify-content: flex-start;
+    min-height: 50px;
+    padding: var(--spacing-sm) var(--spacing-md);
+  }
+
+  .theme-selector .theme-option .theme-icon {
+    font-size: 20px;
+    margin-right: var(--spacing-sm);
+  }
+}
+

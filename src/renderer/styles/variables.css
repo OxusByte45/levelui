@@ -1,10 +1,12 @@
 /*------------------------------------------------------------------------------
 *
-*  Variables
+*  Variables - SINGLE SOURCE OF TRUTH FOR THEMING
+*  All colors, spacing, and theme values defined here
 *
-------------------------------------------------------------------------------*/
+*------------------------------------------------------------------------------*/
 
-:root {
+:root,
+[data-theme="light"] {
   /* Font Families */
   --font-proxima: "ProximaNova Regular";
 
@@ -26,7 +28,84 @@
   --line-height-base: 1.25;
   --line-height-headings: 1;
 
-  /* Colors */
+  /* Layout - Spacing */
+  --spacing-xs: 0.25rem; /* 4px */
+  --spacing-sm: 0.5rem; /* 8px */
+  --spacing-md: 1rem; /* 16px */
+  --spacing-lg: 1.5rem; /* 24px */
+  --spacing-xl: 2rem; /* 32px */
+  --spacing-xxl: 3rem; /* 48px */
+
+  /* Layout - Border Radius */
+  --border-radius-sm: 0.25rem; /* 4px */
+  --border-radius-md: 0.5rem; /* 8px */
+  --border-radius-lg: 1rem; /* 16px */
+  --border-radius-full: 9999px;
+
+  /* Layout - Shadows */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+  
+  /* Overlay Colors */
+  --overlay-hover: rgba(0, 0, 0, 0.08);
+  --overlay-active: rgba(0, 0, 0, 0.12);
+  --gradient-overlay-start: rgba(232, 234, 236, 0.3);
+
+  /* Colors - Background */
+  --bg-primary: #ffffff;
+  --bg-secondary: #f8f8f8;
+  --bg-tertiary: #f0f0f0;
+  --bg-elevated: #ffffff;
+
+  /* Colors - Text */
+  --text-primary: #333333;
+  --text-secondary: #666666;
+  --text-tertiary: #999999;
+  --text-inverse: #ffffff;
+
+  /* Colors - UI Elements */
+  --header-bg: #666666;
+  --header-text: #ffffff;
+  --border-color: #dddddd;
+  --border-color-light: #e8eaec;
+
+  /* Colors - Interactive */
+  --accent-color: #4A90E2;
+  --accent-hover: #357abd;
+  --accent-active: #2a5f8f;
+  --link-color: #00AEB2;
+  --accent-glow-light: rgba(74, 144, 226, 0.1);
+  --accent-glow-dark: rgba(74, 144, 226, 0.2);
+
+  /* Colors - Code Editor */
+  --code-bg: #ffffff;
+  --code-text: #333333;
+  --code-border: #dddddd;
+  --code-gutter-bg: #f8f8f8;
+  --code-gutter-text: #999999;
+  --code-selection-bg: rgba(70, 141, 201, 0.15);
+  --code-selection-bg-focused: rgba(70, 141, 201, 0.25);
+  --code-cursor: #333333;
+
+  /* Scrollbar Colors */
+  --scrollbar-track: #f0f0f0;
+  --scrollbar-thumb: #c0c0c0;
+  --scrollbar-thumb-hover: #a0a0a0;
+
+  /* Colors - Syntax Highlighting (Light Theme) */
+  --syntax-string: #3c7cd4;        /* Blue for strings */
+  --syntax-number: #164;            /* Green for numbers */
+  --syntax-keyword: #708;           /* Purple for keywords */
+  --syntax-property: #05a;          /* Dark blue for property names */
+  --syntax-punctuation: #999999;    /* Gray for punctuation */
+  --syntax-bool: #219;              /* Purple for booleans */
+  --syntax-null: #219;              /* Purple for null */
+  --syntax-bracket: #999999;        /* Gray for brackets */
+  --syntax-operator: #999999;       /* Gray for operators */
+  --syntax-variable: #333333;        /* Dark gray for variables */
+
+  /* Legacy Colors (for backward compatibility during migration) */
   --dark-gray: rgba(0, 0, 0, 0.8);
   --blue: #4A90E2;
   --sky-blue-dark: #0c1426;
@@ -38,3 +117,68 @@
   --space-gray-lighter: #e8eaec;
 }
 
+/* Dark Theme Overrides */
+[data-theme="dark"] {
+  /* Colors - Background */
+  --bg-primary: #1e1e1e;
+  --bg-secondary: #252525;
+  --bg-tertiary: #2d2d2d;
+  --bg-elevated: #2a2a2a;
+
+  /* Colors - Text */
+  --text-primary: #e0e0e0;
+  --text-secondary: #a0a0a0;
+  --text-tertiary: #707070;
+  --text-inverse: #1e1e1e;
+
+  /* Colors - UI Elements */
+  --header-bg: #2d2d2d;
+  --header-text: #e0e0e0;
+  --border-color: #444444;
+  --border-color-light: #3a3a3a;
+
+  /* Colors - Interactive */
+  --accent-color: #5ba3f5;
+  --accent-hover: #4a92e4;
+  --accent-active: #3a81d3;
+  --link-color: #00c4c8;
+  --accent-glow-light: rgba(91, 163, 245, 0.15);
+  --accent-glow-dark: rgba(91, 163, 245, 0.25);
+
+  /* Colors - Code Editor */
+  --code-bg: #1e1e1e;
+  --code-text: #e0e0e0;
+  --code-border: #444444;
+  --code-gutter-bg: #252525;
+  --code-gutter-text: #707070;
+  --code-selection-bg: rgba(91, 163, 245, 0.15);
+  --code-selection-bg-focused: rgba(91, 163, 245, 0.25);
+  --code-cursor: #e0e0e0;
+
+  /* Scrollbar Colors (Dark Theme) */
+  --scrollbar-track: #2d2d2d;
+  --scrollbar-thumb: #555555;
+  --scrollbar-thumb-hover: #666666;
+
+  /* Colors - Syntax Highlighting (Dark Theme - Professional) */
+  --syntax-string: #d7ba7d;          /* Warm gold for strings */
+  --syntax-number: #b5cea8;          /* Sage green for numbers */
+  --syntax-keyword: #569cd6;         /* Professional blue for keywords */
+  --syntax-property: #4ec9b0;        /* Cyan for property names */
+  --syntax-punctuation: #808080;    /* Neutral gray for punctuation */
+  --syntax-bool: #4fc1ff;            /* Bright cyan for booleans */
+  --syntax-null: #808080;            /* Neutral gray for null */
+  --syntax-bracket: #808080;        /* Neutral gray for brackets */
+  --syntax-operator: #808080;       /* Neutral gray for operators */
+  --syntax-variable: #9cdcfe;         /* Light blue for variables */
+
+  /* Overlay Colors (dark theme) */
+  --overlay-hover: rgba(255, 255, 255, 0.08);
+  --overlay-active: rgba(255, 255, 255, 0.12);
+  --gradient-overlay-start: rgba(60, 60, 60, 0.3);
+
+  /* Legacy Colors (dark theme variants) */
+  --space-gray: #a0a0a0;
+  --space-gray-light: #707070;
+  --space-gray-lighter: #3a3a3a;
+}

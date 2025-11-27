@@ -23,3 +23,14 @@ section.settings .controls {
   margin-bottom: 15px;
 }
 
+section.settings .control.full {
+  width: 100%;
+}
+
+section.settings .control.full label {
+  display: block;
+  margin-bottom: var(--spacing-sm);
+  color: var(--text-primary);
+  font-weight: var(--font-weight-regular);
+}
+

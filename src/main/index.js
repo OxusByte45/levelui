@@ -1,4 +1,4 @@
-import { app, BrowserWindow, ipcMain, dialog } from 'electron';
+import { app, BrowserWindow, ipcMain, dialog, nativeTheme } from 'electron';
 import dbManager from './db-manager.js';
 import fs from 'fs';
 import path from 'path';
@@ -131,6 +131,44 @@ ipcMain.handle('app-get-cwd', async (event) => {
   return process.cwd();
 });
 
+// Theme operations IPC handlers
+ipcMain.handle('get-system-theme', async (event) => {
+  try {
+    const shouldUseDarkColors = nativeTheme.shouldUseDarkColors;
+    return { success: true, theme: shouldUseDarkColors ? 'dark' : 'light' };
+  } catch (err) {
+    console.error('IPC: get-system-theme error:', err);
+    return { success: false, theme: 'light' };
+  }
+});
+
+ipcMain.handle('set-theme-override', async (event, theme) => {
+  try {
+    // Store theme override in user config file
+    const userConfigPath = path.join(app.getPath('userData'), 'theme-config.json');
+    const config = { themeOverride: theme };
+    fs.writeFileSync(userConfigPath, JSON.stringify(config, null, 2), 'utf-8');
+    return { success: true };
+  } catch (err) {
+    console.error('IPC: set-theme-override error:', err);
+    return { success: false, error: err.message };
+  }
+});
+
+ipcMain.handle('get-theme-override', async (event) => {
+  try {
+    const userConfigPath = path.join(app.getPath('userData'), 'theme-config.json');
+    if (existsSync(userConfigPath)) {
+      const configData = JSON.parse(fs.readFileSync(userConfigPath, 'utf-8'));
+      return { success: true, themeOverride: configData.themeOverride || null };
+    }
+    return { success: true, themeOverride: null };
+  } catch (err) {
+    console.warn('IPC: get-theme-override error:', err);
+    return { success: true, themeOverride: null };
+  }
+});
+
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
     app.quit();
@@ -206,6 +244,14 @@ app.on('ready', async () => {
 
   mainWindow.on('closed', () => {
     mainWindow = null;
+  });
+
+  // Listen for system theme changes and notify renderer
+  nativeTheme.on('updated', () => {
+    if (mainWindow && !mainWindow.isDestroyed()) {
+      const theme = nativeTheme.shouldUseDarkColors ? 'dark' : 'light';
+      mainWindow.webContents.send('system-theme-changed', theme);
+    }
   });
 });
 

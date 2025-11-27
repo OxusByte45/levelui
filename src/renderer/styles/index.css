@@ -12,6 +12,7 @@
 @import './components/icons.css';
 @import './components/inputs.css';
 @import './components/tree.css';
+@import './components/theme-selector.css';
 
 @import './sections/header.css';
 @import './sections/connections.css';

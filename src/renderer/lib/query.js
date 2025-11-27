@@ -83,6 +83,35 @@ export function init(db, cfg) {
       const selectedIndex = keysSelect.selectedIndex;
       if (selectedIndex >= 0 && keysList[selectedIndex]) {
         selectedKey = keysList[selectedIndex];
+        
+        // Update tree active state to match dropdown selection
+        const section = document.querySelector('section.query');
+        if (section) {
+          // Remove active class from all tree labels (including sublevels)
+          const allLabels = section.querySelectorAll('.tree label');
+          allLabels.forEach(l => l.classList.remove('active'));
+          
+          // Find and activate the corresponding tree label by data-key attribute
+          // This works for both root level and sublevel items
+          const matchingLabel = section.querySelector(`.tree label[data-key="${selectedKey}"]`);
+          if (matchingLabel) {
+            matchingLabel.classList.add('active');
+            
+            // Expand parent nodes if this is a sublevel item
+            let parent = matchingLabel.closest('li');
+            while (parent) {
+              const parentCheckbox = parent.querySelector('input[type="checkbox"]');
+              if (parentCheckbox && !parentCheckbox.checked) {
+                parentCheckbox.checked = true;
+              }
+              parent = parent.parentElement?.closest('li');
+            }
+            
+            // Scroll the matching label into view if needed
+            matchingLabel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+          }
+        }
+        
         loadValue(selectedKey);
       }
     });
@@ -349,6 +378,9 @@ export async function getKeys(db, cfg, skipTreeRebuild = false) {
     }
     // Only clear tree if we're doing a full rebuild (not just toggling sort order)
     if (treeRoot && !skipTreeRebuild) {
+      // Clear active state from all labels before clearing tree
+      const allLabels = section.querySelectorAll('.tree label');
+      allLabels.forEach(l => l.classList.remove('active'));
       treeRoot.innerHTML = '';
     }
     
@@ -370,6 +402,17 @@ export async function getKeys(db, cfg, skipTreeRebuild = false) {
     if (treeRoot && !skipTreeRebuild) {
       const sortedKeysForTree = [...keysList].sort();
       buildTree(treeRoot, sortedKeysForTree);
+      
+      // After rebuilding tree, restore active state if there's a selected key
+      if (selectedKey) {
+        const matchingLabel = section.querySelector(`.tree label[data-key="${selectedKey}"]`);
+        if (matchingLabel) {
+          matchingLabel.classList.add('active');
+        } else {
+          // Selected key no longer exists in the tree, clear selection
+          selectedKey = null;
+        }
+      }
     }
     
     if (deleteBtn) {
@@ -453,7 +496,10 @@ function buildTree(rootUl, keys) {
       
       label.textContent = node.name;
       
+      // Store the full key in data attribute for ALL nodes with fullKey (including sublevels)
       if (node.fullKey) {
+        label.setAttribute('data-key', node.fullKey);
+        
         label.addEventListener('click', (e) => {
           // Don't trigger if clicking the checkbox area
           if (e.target === checkbox) return;
@@ -473,8 +519,8 @@ function buildTree(rootUl, keys) {
           selectedKey = node.fullKey;
           loadValue(node.fullKey);
           
-          // Update select dropdown
-          const keysSelect = document.querySelector('.keys select');
+          // Update select dropdown to match tree selection
+          const keysSelect = section.querySelector('.keys select');
           if (keysSelect) {
             const index = keysList.indexOf(node.fullKey);
             if (index >= 0) {
